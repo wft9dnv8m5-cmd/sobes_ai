@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0c0c0c">
-<title>PrepCam — тренажёр собеседований с AI-интервьюером и аудитом речи</title>
-<meta name="description" content="Интервью-тренажёр: 14 направлений, распознавание речи, аудит слов-паразитов, видеозапись и разбор кейсов.">
+<title>PrepCam — тренажёр собеседований</title>
+<meta name="description" content="Интервью-тренажёр: 14 направлений, 500+ вопросов, кейсы, запись видео и голоса, время на подготовку.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c0c0c'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%2300d2ff' stroke-width='6'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0c0c0c;--card:rgba(255,255,255,.04);--line:rgba(255,255,255,.1);--muted:rgba(255,255,255,.6);--cy:#00d2ff;--ice:#a4f4fd;--red:#ff5b5b;--grn:#2ecc71}
@@ -49,13 +49,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 :focus-visible{outline:2px solid var(--cy);outline-offset:2px}
 @media(max-width:820px){section{padding:72px 0}.grid3{grid-template-columns:1fr}nav .links{display:none}}
 
-/* Фоновые градиенты */
-.aur{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.aur i{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(90px);opacity:.25;animation:fl 18s ease-in-out infinite alternate}
-.aur i:first-child{background:#00d2ff;top:-140px;left:-120px}.aur i:last-child{background:#3d81e3;right:-140px;top:30%;animation-delay:-9s}
-@keyframes fl{to{transform:translate(90px,60px) scale(1.15)}}
-
-/* Интро с падающими словами */
+/* Анимация падающих слов */
 #intro-screen{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at center,#10141f 0%,#050608 100%);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .7s ease,visibility .7s}
 #intro-screen.done{opacity:0;visibility:hidden;pointer-events:none}
 .intro-container{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:18px 24px;max-width:920px;padding:24px;user-select:none}
@@ -71,6 +65,17 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 #main-wrap{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
 #main-wrap.active{opacity:1;transform:translateY(0)}
+
+.aur{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aur i{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(90px);opacity:.25;animation:fl 18s ease-in-out infinite alternate}
+.aur i:first-child{background:#00d2ff;top:-140px;left:-120px}.aur i:last-child{background:#3d81e3;right:-140px;top:30%;animation-delay:-9s}
+@keyframes fl{to{transform:translate(90px,60px) scale(1.15)}}
+
+/* Text split effect (original) */
+.word{display:inline-block;opacity:0;transform:translateY(.7em);animation:up .8s cubic-bezier(.22,1,.36,1) forwards;animation-delay:calc(var(--i)*110ms)}
+.gw .word{background:linear-gradient(90deg,#0b2551,#a4f4fd,#00d2ff,#0b2551);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:up .8s cubic-bezier(.22,1,.36,1) forwards,sh 5s linear infinite;animation-delay:calc(var(--i)*110ms),0s}
+@keyframes up{to{opacity:1;transform:none}}
+@keyframes sh{to{background-position:-250% center}}
 
 .stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:0 0 34px}
 .stats b{display:block;font-size:32px;color:var(--ice)}.stats span{font-size:13px;color:var(--muted)}
@@ -99,8 +104,8 @@ select{background:#16191f;color:#fff;border:1px solid var(--line);border-radius:
 @media(max-width:820px){.grid4{grid-template-columns:1fr 1fr}.rg{grid-template-columns:1fr}}
 @media(max-width:520px){.grid4{grid-template-columns:1fr}}
 
-/* Окно Zoom/Teams с 2D-аватаром */
-.interviewer-pip{position:absolute;bottom:16px;right:16px;width:240px;height:170px;background:#14171d;border:2px solid rgba(0,210,255,.5);border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,.7);z-index:15;display:flex;flex-direction:column}
+/* PIP Окно 2D-интервьюера - УВЕЛИЧЕНО */
+.interviewer-pip{position:absolute;bottom:16px;right:16px;width:300px;height:220px;background:#14171d;border:2px solid rgba(0,210,255,.5);border-radius:12px;overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,.7);z-index:15;display:flex;flex-direction:column}
 .interviewer-canvas-wrap{width:100%;height:100%;position:relative;background:radial-gradient(circle at 50% 35%,#222a38 0%,#0c0f14 100%)}
 .interviewer-canvas-wrap canvas{width:100%!important;height:100%!important;display:block}
 .pip-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.1)}
@@ -113,11 +118,9 @@ select{background:#16191f;color:#fff;border:1px solid var(--line);border-radius:
 @keyframes swave{0%{height:20%}100%{height:100%}}
 .voice-ctrl{display:flex;gap:10px;margin-top:12px;align-items:center;font-size:13px;color:var(--muted);flex-wrap:wrap}
 
-/* Бегущая строка распознавания речи во время ответа */
+/* Аудит речи */
 .live-transcript-box{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:12px;font-size:13px;color:rgba(255,255,255,.8);max-height:80px;overflow-y:auto}
 .live-transcript-box b{color:var(--cy)}
-
-/* Блоки аудита в финальном разборе */
 .audit-card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
 .audit-badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
 .audit-badge.good{background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.3)}
@@ -134,12 +137,10 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
 <body class="lock-scroll">
 <div class="aur"><i></i><i></i></div>
 
-<!-- 1. ИНТРО: СЛОВА ПАДАЮТ И РАССЫПАЮТСЯ -->
 <div id="intro-screen">
   <div class="intro-container" id="introBox"></div>
 </div>
 
-<!-- 2. ОСНОВНОЙ КОНТЕНТ -->
 <div id="main-wrap">
   <div class="wrap">
     <nav>
@@ -149,8 +150,8 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
     </nav>
 
     <header class="hero">
-      <h1><span>Твоё интервью.</span><br><span style="color:var(--cy)">С живым аудитом</span></h1>
-      <p class="muted">Тренажёр собеседований с 2D AI-интервьюером, распознаванием речи в реальном времени, подсчётом слов-паразитов и детальной оценкой структуры ответов.</p>
+      <h1><span data-split>Your interview.</span><br><span class="gw" data-split>Revitalized</span></h1>
+      <p class="muted">Интервью-тренажёр с записью: 14 направлений, больше 500 вопросов и кейсы с разбором. Время на подготовку, таймер ответа, запись видео и голоса — прямо в браузере, без регистрации.</p>
       <div class="stats" id="stats"></div>
       <div class="cta"><a class="btn" href="#trainer">Начать тренировку</a><button class="btn ghost" data-test>Пройти тест</button></div>
     </header>
@@ -158,7 +159,7 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
     <section id="how" style="padding-bottom:0">
       <div class="center"><h2>Как проходит тренировка</h2><p class="muted">Четыре простых шага от выбора роли до комплексного аудита речи.</p></div>
       <div class="grid4">
-        <div class="card"><span class="num">ШАГ 1</span><h3>Выберите сферу</h3><p class="muted" style="margin:0;font-size:15px">Закупки, финансы, продакт-менеджмент, разработка, логистика, аналитика.</p></div>
+        <div class="card"><span class="num">ШАГ 1</span><h3>Выберите сферу</h3><p class="muted" style="margin:0;font-size:15px">Закупки, финансы, продакт-менеджмент, разработка, HR, маркетинг и другие.</p></div>
         <div class="card"><span class="num">ШАГ 2</span><h3>Настройка звука и камеры</h3><p class="muted" style="margin:0;font-size:15px">Проверьте картинку с камеры и работу распознавания голоса в микрофоне.</p></div>
         <div class="card"><span class="num">ШАГ 3</span><h3>Отвечайте интервьюеру</h3><p class="muted" style="margin:0;font-size:15px">2D-интервьюер озвучивает вопросы, таймер фиксирует речь, алгоритм распознает слова.</p></div>
         <div class="card"><span class="num">ШАГ 4</span><h3>Получите аудит речи</h3><p class="muted" style="margin:0;font-size:15px">Анализ слов-паразитов, темпа речи, разбор кейса и скачивание готовых видео.</p></div>
@@ -185,11 +186,9 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
   <footer><div class="wrap"><span>PrepCam © <span id="year"></span></span><span><a href="#trainer">Тренажёр</a> · <a href="#features">Возможности</a></span></div></footer>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО СЕССИИ ИНТЕРВЬЮ -->
 <div id="ses" hidden>
  <div class="sh"><b id="stt">Интервью-тренажёр</b><button class="x" id="sx" aria-label="Закрыть">×</button></div>
  
- <!-- ЭКРАН 1: ПРОВЕРКА ОБОРУДОВАНИЯ -->
  <div id="s1" class="sb">
   <h2 style="font-size:30px">Проверка камеры и звука</h2>
   <p class="muted">Разрешите доступ к веб-камере и микрофону, чтобы включить запись и аудит речи.</p>
@@ -197,11 +196,7 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
   <div class="meter"><i id="mt"></i></div>
   <p id="chk" class="muted"></p>
   <p class="muted" style="font-size:14px">Время на подготовку к вопросу: 
-    <select id="prepSel">
-      <option value="15">15 с</option>
-      <option value="30" selected>30 с</option>
-      <option value="60">1 мин</option>
-    </select>
+    <select id="prepSel"><option value="15">15 с</option><option value="30" selected>30 с</option><option value="60">1 мин</option></select>
   </p>
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <button class="btn ghost" id="chkb">Проверить оборудование</button>
@@ -209,7 +204,6 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
   </div>
  </div>
 
- <!-- ЭКРАН 2: САМО СОБЕСЕДОВАНИЕ -->
  <div id="s2" class="sb" hidden>
   <div class="row"><span><b id="ph"></b> · <span class="muted" id="sc"></span></span><span class="time" id="st"></span></div>
   <div class="bar"><i id="sp"></i></div>
@@ -219,10 +213,10 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
   <div class="vb" id="callScreen">
     <video id="lv" class="mir" autoplay muted playsinline></video>
     
-    <!-- Окно 2D-интервьюера -->
     <div class="interviewer-pip">
       <div class="interviewer-canvas-wrap">
-        <canvas id="avatarCanvas" width="240" height="170"></canvas>
+        <!-- Увеличенное разрешение Canvas под размер 300x220 -->
+        <canvas id="avatarCanvas" width="300" height="220"></canvas>
         <div class="pip-badge"><i></i> PrepCam AI Interviewer</div>
         <div class="pip-status">
           <span id="pipLabel">Слушает</span>
@@ -232,7 +226,6 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
     </div>
   </div>
 
-  <!-- Живая расшифровка ответа -->
   <div class="live-transcript-box">
     <b>Распознавание речи:</b> <span id="liveTranscript" class="muted">Начните говорить в микрофон, когда пойдёт таймер записи...</span>
   </div>
@@ -247,12 +240,10 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
   <div style="margin-top:16px"><button class="btn" id="nx2">Следующий вопрос</button></div>
  </div>
 
- <!-- ЭКРАН 3: РАЗБОР, ЗАПИСИ И АУДИТ РЕЧИ -->
  <div id="s3" class="sb" hidden>
   <h2 style="font-size:30px;margin-bottom:8px">Результаты и аудит интервью</h2>
   <p class="muted" style="margin-bottom:20px">Пересмотрите видео ответов, проверьте чистоту речи от слов-паразитов и изучите разбор кейса.</p>
   
-  <!-- Сводная плашка аудита -->
   <div class="card" id="overallAudit" style="margin-bottom:24px;padding:20px"></div>
 
   <div class="rg">
@@ -261,10 +252,7 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
       <div class="vb"><video id="rv" controls playsinline></video></div>
       <p id="rt" style="font-weight:600;margin:12px 0 4px"></p>
       <a id="dl" class="muted" style="font-size:13px;text-decoration:underline">Скачать видеозапись</a>
-      
-      <!-- Карточка аудита для выбранного вопроса -->
       <div class="audit-card" id="qAuditCard"></div>
-
       <details id="rs" hidden style="margin-top:16px"><summary>Разбор кейса</summary><p id="rst" style="margin-top:10px;color:rgba(255,255,255,.8)"></p></details>
     </div>
   </div>
@@ -272,10 +260,14 @@ mark.par{background:rgba(255,91,91,.4);color:#fff;padding:0 2px;border-radius:3p
  </div>
 </div>
 
-<dialog id="dlg"><div class="dh"><b>Тест-кейсы</b><select id="tsel"></select><button class="x" id="dx" aria-label="Закрыть">×</button></div><div id="tb"></div></dialog>
-
 <script>
-/* ==================== 1. ИНТРО: ПАДАЮЩИЕ СЛОВА ==================== */
+/* Text Split (for original hero text effect) */
+document.querySelectorAll('[data-split]').forEach(el=>{
+  const g=el.classList.contains('gw')?2:0;
+  el.innerHTML=el.textContent.split(' ').map((w,i)=>`<span class="word" style="--i:${i+g}">${w}</span>`).join(' ');
+});
+
+/* ==================== 1. ИНТРО ==================== */
 const INTRO_WORDS = ["ТВОЁ", "СОБЕСЕДОВАНИЕ", "НАЧИНАЕТСЯ", "СЕЙЧАС"];
 const GLOW_WORD = "СЕЙЧАС";
 
@@ -313,7 +305,7 @@ function initIntroAnimation() {
 }
 window.addEventListener("DOMContentLoaded", initIntroAnimation);
 
-/* ==================== 2. СЛОВАРЬ СЛОВ-ПАРАЗИТОВ И АНАЛИЗАТОР ==================== */
+/* ==================== 2. СЛОВАРЬ И АНАЛИЗАТОР ==================== */
 const PARASITES = [
   "как бы", "типа", "короче", "в общем", "в целом", "значит", "собственно", 
   "так сказать", "ну", "это самое", "просто", "слушай", "понимаешь", 
@@ -322,26 +314,15 @@ const PARASITES = [
 
 function auditTranscript(text, durationSec) {
   if (!text || text.trim().length === 0) {
-    return {
-      text: "",
-      totalWords: 0,
-      parasiteCount: 0,
-      purityScore: 100,
-      wpm: 0,
-      foundList: [],
-      highlightedHtml: "<i class='muted'>Речь не была распознана или микрофон молчал.</i>"
-    };
+    return { text: "", totalWords: 0, parasiteCount: 0, purityScore: 100, wpm: 0, foundList: [], highlightedHtml: "<i class='muted'>Речь не была распознана или микрофон молчал.</i>" };
   }
-
   const clean = text.trim();
   const words = clean.split(/\s+/).filter(Boolean);
   const totalWords = words.length;
-
   let parasiteCount = 0;
   const foundMap = {};
   let highlighted = clean;
 
-  // Ищем и подсвечиваем паразиты
   PARASITES.forEach(p => {
     const rx = new RegExp(`(^|\\s|[.,!?;])(${p})($|\\s|[.,!?;])`, "gi");
     let match;
@@ -352,33 +333,23 @@ function auditTranscript(text, durationSec) {
     highlighted = highlighted.replace(new RegExp(`\\b(${p})\\b`, "gi"), `<mark class="par">$1</mark>`);
   });
 
-  // Расчёт чистоты речи и темпа (WPM)
   const ratio = totalWords > 0 ? (parasiteCount / totalWords) : 0;
   let purityScore = Math.max(0, Math.round(100 - (ratio * 250)));
   const minutes = Math.max(durationSec / 60, 0.15);
   const wpm = Math.round(totalWords / minutes);
-
   const foundList = Object.keys(foundMap).map(k => ({ word: k, count: foundMap[k] }));
 
-  return {
-    text: clean,
-    totalWords,
-    parasiteCount,
-    purityScore,
-    wpm,
-    foundList,
-    highlightedHtml: highlighted
-  };
+  return { text: clean, totalWords, parasiteCount, purityScore, wpm, foundList, highlightedHtml: highlighted };
 }
 
-/* ==================== 3. 2D-ИНТЕРВЬЮЕР НА CANVAS ==================== */
+/* ==================== 3. 2D-ИНТЕРВЬЮЕР НА CANVAS (КРАСИВЕЕ И АНИМИРОВАННЕЕ) ==================== */
 class Avatar2D {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.isSpeaking = false;
-    this.blinkVal = 0; // 0 - открыты, 1 - закрыты
-    this.mouthOpen = 0; // 0 - закрыт, 1 - открыт
+    this.blinkVal = 0; 
+    this.mouthOpen = 0; 
     this.headTilt = 0;
     this.eyeLook = { x: 0, y: 0 };
     this.t = 0;
@@ -408,166 +379,164 @@ class Avatar2D {
   }
 
   update() {
-    // Естественное дыхание и покачивание головы
     this.headTilt = Math.sin(this.t * 1.5) * 1.5;
-
-    // Моргание
     const blinkCycle = Math.sin(this.t * 1.8);
-    if (blinkCycle > 0.96) {
-      this.blinkVal = 1;
-    } else {
-      this.blinkVal = 0;
-    }
+    this.blinkVal = blinkCycle > 0.96 ? 1 : 0;
 
-    // Артикуляция рта при вопросе
     if (this.isSpeaking) {
-      this.mouthOpen = (Math.sin(this.t * 16) * 0.5 + 0.5) * 0.8 + (Math.sin(this.t * 6) * 0.2);
+      // Snappier mouth animation
+      this.mouthOpen = (Math.sin(this.t * 22) * 0.5 + 0.5) * 0.9 + (Math.sin(this.t * 8) * 0.1);
     } else {
-      this.mouthOpen *= 0.85;
+      this.mouthOpen *= 0.7;
     }
   }
 
   draw() {
     const ctx = this.ctx;
-    const w = this.canvas.width;
-    const h = this.canvas.height;
+    const w = this.canvas.width;  // 300
+    const h = this.canvas.height; // 220
     ctx.clearRect(0, 0, w, h);
-
     ctx.save();
-    // Фоновое свечение звонка
-    const bgGrad = ctx.createRadialGradient(w/2, h/2, 20, w/2, h/2, 130);
-    bgGrad.addColorStop(0, '#1c2432');
-    bgGrad.addColorStop(1, '#0e1219');
+    
+    // Фоновое свечение (мягче)
+    const bgGrad = ctx.createRadialGradient(w/2, h/2, 20, w/2, h/2, 160);
+    bgGrad.addColorStop(0, '#2c3546');
+    bgGrad.addColorStop(1, '#0c0f14');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, w, h);
 
-    // Центр персонажа
-    ctx.translate(w / 2, h / 2 + 18);
+    // Центрируем и масштабируем (увеличиваем для окна 300x220)
+    ctx.translate(w / 2, h / 2 + 30);
+    ctx.scale(1.25, 1.25); // Сделаем аватар крупнее
     ctx.rotate((this.headTilt * Math.PI) / 180);
 
-    // 1. Плечи и одежда (темная стильная толстовка с капюшоном)
-    ctx.fillStyle = '#222938';
+    // 1. Одежда (Пиджак / Темно-синий костюм)
+    ctx.fillStyle = '#1e2430';
     ctx.beginPath();
-    ctx.ellipse(0, 78, 64, 38, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, 80, 70, 42, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // Ворот толстовки
-    ctx.fillStyle = '#171d27';
+    // Ворот (светлая рубашка)
+    ctx.fillStyle = '#f0f2f5';
     ctx.beginPath();
-    ctx.ellipse(0, 48, 28, 12, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, 46, 26, 12, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // Галстук
+    ctx.fillStyle = '#3a6ea5';
+    ctx.beginPath();
+    ctx.moveTo(-6, 50);
+    ctx.lineTo(6, 50);
+    ctx.lineTo(4, 80);
+    ctx.lineTo(-4, 80);
     ctx.fill();
 
     // 2. Шея
-    ctx.fillStyle = '#e8b89d';
-    ctx.fillRect(-14, 24, 28, 24);
+    ctx.fillStyle = '#ebba9f';
+    ctx.fillRect(-15, 24, 30, 24);
 
-    // 3. Форма лица и подбородок
-    ctx.fillStyle = '#f5c6ac';
+    // 3. Лицо (более овальное, приятное)
+    ctx.fillStyle = '#faceb6';
     ctx.beginPath();
-    ctx.ellipse(0, 0, 36, 44, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Мягкий румянец
-    ctx.fillStyle = 'rgba(235, 120, 100, 0.12)';
-    ctx.beginPath();
-    ctx.arc(-22, 6, 8, 0, Math.PI * 2);
-    ctx.arc(22, 6, 8, 0, Math.PI * 2);
+    ctx.ellipse(0, 0, 35, 46, 0, 0, Math.PI * 2);
     ctx.fill();
 
     // 4. Глаза и брови
     const eyeY = -4;
-    const eyeDist = 14;
-
+    const eyeDist = 15;
     [-1, 1].forEach(side => {
       const ex = side * eyeDist;
       
-      // Брови
-      ctx.strokeStyle = '#4a3326';
-      ctx.lineWidth = 2.8;
+      // Брови - более естественный изгиб
+      ctx.strokeStyle = '#422c1e';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
       ctx.beginPath();
-      ctx.moveTo(ex - 7, eyeY - 11);
-      ctx.quadraticCurveTo(ex, eyeY - 14, ex + 7, eyeY - 11);
+      ctx.moveTo(ex - 8, eyeY - 12);
+      ctx.quadraticCurveTo(ex, eyeY - 16, ex + 8, eyeY - 12);
       ctx.stroke();
 
       if (this.blinkVal > 0.5) {
-        // Закрытый глаз (веко)
-        ctx.strokeStyle = '#5c3e2e';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#c49377';
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.moveTo(ex - 6, eyeY);
-        ctx.lineTo(ex + 6, eyeY);
+        ctx.moveTo(ex - 7, eyeY + 1);
+        ctx.quadraticCurveTo(ex, eyeY + 3, ex + 7, eyeY + 1);
         ctx.stroke();
       } else {
-        // Белок глаза
+        // Белок
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.ellipse(ex, eyeY, 6, 4.5, 0, 0, Math.PI * 2);
+        ctx.ellipse(ex, eyeY, 7, 5, 0, 0, Math.PI * 2);
         ctx.fill();
-
-        // Карие/темные зрачки со взглядом
-        ctx.fillStyle = '#2f2017';
+        // Радужка
+        ctx.fillStyle = '#3f5873';
         ctx.beginPath();
-        ctx.arc(ex + this.eyeLook.x * 0.4, eyeY + this.eyeLook.y * 0.4, 3, 0, Math.PI * 2);
+        ctx.arc(ex + this.eyeLook.x * 0.4, eyeY + this.eyeLook.y * 0.4, 3.5, 0, Math.PI * 2);
         ctx.fill();
-
-        // Блик в глазу
+        // Зрачок
+        ctx.fillStyle = '#111111';
+        ctx.beginPath();
+        ctx.arc(ex + this.eyeLook.x * 0.4, eyeY + this.eyeLook.y * 0.4, 2, 0, Math.PI * 2);
+        ctx.fill();
+        // Блик
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(ex + this.eyeLook.x * 0.4 + 1, eyeY - 1.2, 1, 0, Math.PI * 2);
+        ctx.arc(ex + this.eyeLook.x * 0.4 + 1.5, eyeY - 1.5, 1, 0, Math.PI * 2);
         ctx.fill();
       }
     });
 
-    // 5. Нос
-    ctx.strokeStyle = '#d69d80';
+    // 5. Нос (аккуратный)
+    ctx.strokeStyle = '#d69e80';
     ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     ctx.beginPath();
     ctx.moveTo(0, -2);
-    ctx.lineTo(1.5, 9);
-    ctx.lineTo(-3, 11);
+    ctx.lineTo(2, 10);
+    ctx.lineTo(-3, 12);
     ctx.stroke();
 
-    // 6. Рот (артикуляция + добрая улыбка)
-    const mouthY = 22;
-    if (this.mouthOpen > 0.1) {
-      // Открытый рот при речи
-      ctx.fillStyle = '#4a1515';
+    // 6. Красивая анимация рта
+    const mouthY = 24;
+    if (this.mouthOpen > 0.05) {
+      const h = 4 + this.mouthOpen * 9;
+      // Темная полость
+      ctx.fillStyle = '#3a1111';
       ctx.beginPath();
-      ctx.ellipse(0, mouthY, 8, 4 + this.mouthOpen * 6, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, mouthY, 11, h, 0, 0, Math.PI * 2);
       ctx.fill();
-
-      // Верхние зубы
+      // Зубы сверху
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(-5, mouthY - 3, 10, 2.5);
+      ctx.fillRect(-6, mouthY - Math.max(h - 1, 2), 12, 3.5);
     } else {
       // Спокойная приятная улыбка
-      ctx.strokeStyle = '#a4594c';
-      ctx.lineWidth = 2.2;
+      ctx.strokeStyle = '#ab6253';
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
-      ctx.arc(0, mouthY - 3, 7, 0.2, Math.PI - 0.2, false);
+      ctx.arc(0, mouthY - 5, 11, 0.2, Math.PI - 0.2, false);
       ctx.stroke();
     }
 
-    // 7. Причёска (короткая стрижка с текстурой)
-    ctx.fillStyle = '#422e22';
+    // 7. Стильная прическа
+    ctx.fillStyle = '#33231a';
     ctx.beginPath();
-    ctx.arc(0, -18, 38, Math.PI * 0.82, Math.PI * 2.18, false);
+    // Основная шапка волос
+    ctx.arc(0, -18, 38, Math.PI * 0.8, Math.PI * 2.2, false);
     ctx.lineTo(38, -6);
-    ctx.quadraticCurveTo(24, -20, 0, -22);
+    ctx.quadraticCurveTo(24, -20, 0, -22); // линия лба
     ctx.quadraticCurveTo(-24, -20, -38, -6);
     ctx.closePath();
     ctx.fill();
 
-    // Текстурные пряди надо лбом
-    ctx.fillStyle = '#4d3729';
+    // Челка / текстура волос спереди
+    ctx.fillStyle = '#3f2d22';
     ctx.beginPath();
-    ctx.moveTo(-18, -26);
-    ctx.lineTo(-8, -20);
-    ctx.lineTo(2, -26);
-    ctx.lineTo(14, -21);
-    ctx.lineTo(26, -26);
-    ctx.lineTo(34, -14);
-    ctx.lineTo(-34, -14);
+    ctx.moveTo(-20, -26);
+    ctx.quadraticCurveTo(-10, -18, 0, -26);
+    ctx.quadraticCurveTo(15, -20, 26, -28);
+    ctx.lineTo(35, -15);
+    ctx.quadraticCurveTo(0, -32, -35, -15);
     ctx.closePath();
     ctx.fill();
 
@@ -583,7 +552,7 @@ function initAvatarIfNeeded() {
   }
 }
 
-/* ==================== 4. СИНТЕЗ ГОЛОСА И РАСПОЗНАВАНИЕ РЕЧИ ==================== */
+/* ==================== 4. СИНТЕЗ ГОЛОСА И РАСПОЗНАВАНИЕ ==================== */
 class SpeechHost {
   constructor() {
     this.synth = window.speechSynthesis;
@@ -611,11 +580,9 @@ class SpeechHost {
     if (this.voice) utter.voice = this.voice;
     utter.rate = 1.02;
     utter.pitch = 0.96;
-
     utter.onstart = () => { if (avatar2d) avatar2d.setSpeaking(true); };
     utter.onend = () => { if (avatar2d) avatar2d.setSpeaking(false); if (onEnd) onEnd(); };
     utter.onerror = () => { if (avatar2d) avatar2d.setSpeaking(false); if (onEnd) onEnd(); };
-
     this.synth.speak(utter);
   }
   stop() {
@@ -625,7 +592,6 @@ class SpeechHost {
 }
 const speaker = new SpeechHost();
 
-// Распознавание речи через Web Speech Recognition API
 class LiveTranscriber {
   constructor() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -649,7 +615,6 @@ class LiveTranscriber {
         const box = $('liveTranscript');
         if (box) box.textContent = this.currentText || "Идёт распознавание речи...";
       };
-
       this.recognition.onerror = () => {};
       this.recognition.onend = () => {
         if (this.isActive) {
@@ -658,7 +623,6 @@ class LiveTranscriber {
       };
     }
   }
-
   start() {
     this.currentText = "";
     this.isActive = true;
@@ -668,7 +632,6 @@ class LiveTranscriber {
       try { this.recognition.start(); } catch(e){}
     }
   }
-
   stop() {
     this.isActive = false;
     if (this.isSupported && this.recognition) {
@@ -679,8 +642,8 @@ class LiveTranscriber {
 }
 const transcriber = new LiveTranscriber();
 
-/* ==================== 5. БАЗА ДАННЫХ ВОПРОСОВ ==================== */
-const DATA={"buy":{"label":"Закупки","q":[{"x":"Два поставщика предлагают одинаковую цену. По каким критериям вы выберете одного?","h":"Качество, сроки, надёжность, условия оплаты, риски.","s":120},{"x":"Ключевой поставщик сообщил о задержке на 2 недели. Ваши действия?","h":"Оцените влияние на производство, найдите замену, договоритесь о компенсации.","s":120},{"x":"Как вы будете искать нового поставщика с нуля?","h":"Источники, запрос КП, критерии отбора, проверка надёжности.","s":90},{"x":"Как проверить надёжность поставщика?","h":"Юрлицо, отзывы, образцы, финансовая устойчивость.","s":90}],"c":[{"x":"Бюджет закупок упаковки нужно сократить на 10%, не снижая качества. С чего начнёте?","h":"Структура: анализ → гипотезы → внедрение → контроль.","r":"1) Выгрузить расходы за год и сделать ABC-анализ. 2) По категории A провести тендер. 3) Консолидировать объёмы. 4) Зафиксировать цены рамочным договором."}],"g":["тендер","рамочный договор","ABC-анализ","TCO","приёмка товара","страховой запас","категорийный менеджмент","SLA","44-ФЗ","223-ФЗ"],"t":[{"q":"Что такое ABC-анализ в закупках?","o":["Деление поставщиков по алфавиту","Группировка позиций по доле в расходах","Оценка сроков поставки"],"a":1,"e":"Группа A — позиции с наибольшей долей затрат."}]},"fin":{"label":"Финансы и экономика","q":[{"x":"Проект требует 2 млн ₽ и приносит 50 тыс. ₽ прибыли в месяц. Стоит ли запускать?","h":"Срок окупаемости 40 месяцев. Оцените риски и дисконтирование.","s":120},{"x":"Чем прибыль отличается от денежного потока?","h":"Метод начисления против фактической оплаты, кассовые разрывы.","s":120}],"c":[{"x":"Выручка выросла на 15%, а прибыль упала. Как найдёте причину?","h":"Разложите прибыль на цену, объём, себестоимость и расходы.","r":"1) Разложить выручку на цену и объём. 2) Проверить себестоимость и маржу. 3) Сделать факторный анализ."}],"g":["выручка","EBITDA","рентабельность","точка безубыточности","денежный поток","CAPEX","OPEX","WACC"],"t":[]},"pm":{"label":"Продукт и проекты","q":[{"x":"Сроки проекта конфликтовали с ожиданиями бизнеса. Что вы сделали?","h":"Ситуация — 15 с, действия — 60 с, результат — 30 с.","s":120},{"x":"У вас 5 задач и ресурсов на 2. Как приоритизируете?","h":"Критерии: ценность, срочность, риски (RICE/WSJF).","s":120}],"c":[{"x":"После релиза конверсия в оплату упала на 20%. Что делаете?","h":"Сначала проверьте данные, потом ищите шаг провала.","r":"1) Проверить сбор данных. 2) Найти шаг воронки с провалом. 3) Проверить техбаги и при необходимости откатить релиз."}],"g":["Scrum","MVP","RICE","бэклог","retention","воронка продукта","A/B-тест"],"t":[]},"dev":{"label":"Разработка","q":[{"x":"Расскажите о самом сложном баге, который вы находили.","h":"Инструменты, гипотезы, тесты, предотвращение рецидива.","s":120},{"x":"Что для вас главное при code review?","h":"Читаемость, безопасность, архитектура, тон общения.","s":90}],"c":[{"x":"Страница стала грузиться 8 секунд вместо 2. С чего начнёте?","h":"Сначала профилирование, потом устранение узкого места.","r":"1) Замерить Network и CPU профилировщиком. 2) Найти узкое место: БД, бандл, тяжелые ресурсы. 3) Внедрить кэш и ленивую загрузку."}],"g":["Git","REST API","SQL","Docker","CI/CD","unit-тест","индексы БД","микросервисы"],"t":[]},"hr":{"label":"HR и поведенческие","q":[{"x":"Назовите свою точку роста и что вы делаете для развития?","h":"Честная слабость и конкретные регулярные действия.","s":90},{"x":"Расскажите о своей главной победе на проекте.","h":"Формат STAR: задача, личные действия, измеримый итог.","s":90}],"c":[{"x":"Два ключевых специалиста конфликтуют и срывают проект.","h":"Факты, общая цель компании, договоренности.","r":"1) Выслушать стороны по отдельности. 2) Перевести диалог на факты и цель. 3) Закрепить зоны ответственности."}],"g":["STAR","обратная связь","мотивация","дедлайн","онбординг","выгорание"],"t":[]}};
+/* ==================== 5. ПОЛНАЯ БАЗА ВОПРОСОВ (ВОССТАНОВЛЕНА ИЗ ОРИГИНАЛА) ==================== */
+const DATA={"buy":{"label":"Закупки","q":[{"x":"Два поставщика предлагают одинаковую цену. По каким критериям вы выберете одного?","h":"Качество, сроки, надёжность, условия оплаты, риски — и как проверите каждый.","s":120},{"x":"Ключевой поставщик сообщил о задержке на 2 недели. Ваши действия?","h":"Оцените влияние на производство, найдите замену, договоритесь о компенсации.","s":120},{"x":"Как вы будете искать нового поставщика с нуля?","h":"Источники, запрос КП, критерии отбора, проверка надёжности.","s":90},{"x":"Как проверить надёжность поставщика?","h":"Юрлицо, отзывы, образцы, финансовая устойчивость, пилотная партия.","s":90},{"x":"Как вы будете вести переговоры о снижении цены?","h":"Альтернативы, объём, долгий договор, аргументы.","s":90},{"x":"Что такое рамочный договор и когда он удобен?","h":"Регулярные закупки, фиксация условий, гибкость объёмов.","s":90},{"x":"Как контролировать сроки и качество поставок?","h":"KPI, приёмка, претензионная работа, обратная связь.","s":90},{"x":"Как вы планируете закупки на квартал?","h":"Потребность, остатки, сезонность, страховой запас.","s":90},{"x":"Как решите конфликт с отделом, который заказывает слишком дорого?","h":"Выяснить потребность, предложить аналоги, показать экономию.","s":90},{"x":"Какие риски у работы с единственным поставщиком?","h":"Зависимость, цена, срыв; резервный поставщик.","s":90}],"c":[{"x":"Бюджет закупок упаковки нужно сократить на 10%, не снижая качества. С чего начнёте?","h":"Структура: анализ → гипотезы → внедрение → контроль.","r":"1) Выгрузить расходы за год и сделать ABC-анализ. 2) По категории A провести тендер и переговоры об объёмных скидках. 3) Консолидировать мелких поставщиков. 4) Унифицировать позиции. 5) Зафиксировать цены рамочным договором. 6) Ежемесячно сверять факт с планом."}],"g":["тендер","рамочный договор","ABC-анализ","XYZ-анализ","TCO","запрос коммерческих предложений","аукцион","спецификация","техническое задание","приёмка товара","претензия поставщику","отсрочка платежа","предоплата","страховой запас","точка заказа","категорийный менеджмент","единственный поставщик","локализация","импортозамещение","Инкотермс","таможенное оформление","скоринг поставщиков","SLA","штрафные санкции","банковская гарантия","демпинг","закупочная комиссия","реестр недобросовестных поставщиков","44-ФЗ","223-ФЗ","электронная торговая площадка","НМЦК","консолидация закупок","аутсорсинг","Just-in-Time","складской запас"],"t":[{"q":"Что такое ABC-анализ в закупках?","o":["Деление поставщиков по алфавиту","Группировка позиций по доле в расходах","Оценка сроков поставки","Проверка документов"],"a":1,"e":"Группа A — немногие позиции с наибольшей долей затрат: на них фокус переговоров."},{"q":"Что даёт конкурентная закупка (тендер)?","o":["Быстрее оформляется","Снижает цену и повышает прозрачность","Исключает любые риски","Не требует документов"],"a":1,"e":"Конкуренция обычно снижает цену и делает выбор объяснимым."},{"q":"Что включает TCO (совокупная стоимость владения)?","o":["Только цену покупки","Цену, доставку, обслуживание, утилизацию","Только налоги","Скидки поставщика"],"a":1,"e":"Дешёвая покупка может оказаться дорогой в эксплуатации."}]},"fin":{"label":"Финансы и экономика","q":[{"x":"Проект требует 2 млн ₽ и приносит 50 тыс. ₽ прибыли в месяц. Стоит ли запускать?","h":"Срок окупаемости 40 месяцев. Обсудите риски, альтернативы и дисконтирование.","s":120},{"x":"Чем прибыль отличается от денежного потока и почему компания с прибылью может обанкротиться?","h":"Начисление против оплаты, дебиторка, запасы, кассовые разрывы.","s":120},{"x":"Как читать отчёт о прибылях и убытках?","h":"Выручка → себестоимость → валовая → операционная → чистая прибыль.","s":90},{"x":"Что такое EBITDA и зачем она нужна?","h":"Прибыль до процентов, налогов и амортизации; сравнение компаний.","s":90},{"x":"Чем CAPEX отличается от OPEX?","h":"Инвестиции в активы против текущих расходов.","s":90},{"x":"Как составить бюджет подразделения?","h":"План продаж, расходы, резерв, контроль «план — факт».","s":90},{"x":"Что такое оборотный капитал?","h":"Запасы + дебиторка − кредиторка; влияние на деньги.","s":90},{"x":"Как оценить, выгоден ли кредит для бизнеса?","h":"Ставка против рентабельности, график платежей, риски.","s":90},{"x":"Как вы работаете в Excel?","h":"Формулы, сводные таблицы, ВПР/XLOOKUP, пример из практики.","s":90},{"x":"Как объяснить финансовый результат нефинансисту?","h":"Простые цифры, пример, вывод и действие.","s":90}],"c":[{"x":"Выручка выросла на 15%, а прибыль упала. Как найдёте причину?","h":"Разложите прибыль на цену, объём, себестоимость и расходы.","r":"1) Разложить выручку на цену и объём. 2) Сравнить себестоимость и маржу по продуктам. 3) Проверить рост коммерческих и управленческих расходов. 4) Посмотреть скидки и структуру клиентов. 5) Сделать факторный анализ «план — факт» и предложить меры."}],"g":["выручка","себестоимость","валовая прибыль","EBITDA","чистая прибыль","рентабельность","маржинальность","точка безубыточности","денежный поток","оборотный капитал","дебиторская задолженность","кредиторская задолженность","CAPEX","OPEX","NPV","IRR","срок окупаемости","дисконтирование","WACC","амортизация","бюджетирование","план-факт анализ","финансовая модель","бухгалтерский баланс","ликвидность","финансовый леверидж","дивиденды","инфляция","ключевая ставка","кредитный рейтинг","факторинг","лизинг","хеджирование","управленческий учёт","ценообразование"],"t":[{"q":"Что показывает маржинальность?","o":["Долю прибыли в выручке","Размер долга","Количество клиентов","Скорость оборота"],"a":0,"e":"Маржа = прибыль / выручка: сколько остаётся с каждого рубля."},{"q":"Что такое точка безубыточности?","o":["Момент максимальной прибыли","Объём продаж, при котором доходы равны затратам","Срок кредита","Минимальная цена"],"a":1,"e":"Выше этого объёма бизнес начинает зарабатывать."},{"q":"Рост дебиторской задолженности при той же выручке — это…","o":["Хороший знак","Заморозка денег и риск кассового разрыва","Рост прибыли","Снижение расходов"],"a":1,"e":"Клиенты платят позже, деньги «застряли» в долгах."}]},"pm":{"label":"Продукт и проекты","q":[{"x":"Расскажите о ситуации, когда сроки проекта конфликтовали с ожиданиями бизнеса. Что вы сделали?","h":"Ситуация — 15 с, действия — 60 с, результат с цифрами — 30 с.","s":120},{"x":"У вас 5 задач и ресурсов на 2. Как вы выберете, что делать?","h":"Назовите критерий (ценность, срочность, риск) и покажите на примере.","s":120},{"x":"Как вы формулируете цель проекта?","h":"SMART: измеримый результат, срок, ответственные.","s":90},{"x":"Как вы управляете рисками проекта?","h":"Реестр рисков, вероятность, влияние, план реакции.","s":90},{"x":"Как вы собираете требования у заказчика?","h":"Интервью, вопрос «зачем», приоритеты, фиксация.","s":90},{"x":"Как приоритизировать бэклог?","h":"RICE, MoSCoW, ценность против трудозатрат.","s":90},{"x":"Как вы измеряете успех продукта?","h":"Активация, retention, выручка; цели до запуска.","s":90},{"x":"Что делать, если команда не успевает к дедлайну?","h":"Сократить объём, сдвинуть срок, добавить ресурсы, честно сообщить.","s":90},{"x":"Как вы работаете с недовольным заказчиком?","h":"Выслушать, факты, план исправления.","s":90},{"x":"Расскажите о проекте, который не получился.","h":"Что пошло не так, ваши выводы, что изменили.","s":90}],"c":[{"x":"После релиза конверсия в оплату упала на 20%. Что делаете?","h":"Сначала проверьте данные, потом ищите причину по воронке.","r":"1) Подтвердить падение: данные, период, сегменты. 2) Сопоставить с релизом, трафиком и сезонностью. 3) Найти шаг воронки с провалом. 4) Откатить или исправить и проверить A/B-тестом. 5) Зафиксировать метрики контроля."}],"g":["жизненный цикл проекта","WBS","диаграмма Ганта","критический путь","Scrum","Kanban","спринт","бэклог","user story","MVP","RICE","roadmap","стейкхолдеры","реестр рисков","управление изменениями","Agile","Waterfall","KPI проекта","OKR","ретроспектива","daily stand-up","Definition of Done","бюджет проекта","управление ресурсами","матрица RACI","customer development","product-market fit","north star metric","воронка продукта","retention","churn","A/B-тест","customer journey map","jobs to be done"],"t":[{"q":"Что такое MVP?","o":["Готовый продукт со всеми функциями","Минимальная версия для проверки гипотезы","Отчёт для инвестора","Дизайн-макет"],"a":1,"e":"MVP позволяет быстро проверить идею на реальных пользователях."},{"q":"Какая метрика показывает удержание пользователей?","o":["Retention","CAC","Выручка за день","Число сотрудников"],"a":0,"e":"Retention — доля пользователей, которые возвращаются."},{"q":"Заказчик просит новую функцию посреди спринта. Что делать?","o":["Добавить молча","Оценить влияние, обсудить приоритет и срок","Отказать без объяснений","Удвоить сроки"],"a":1,"e":"Изменения обсуждаются открыто: что сдвинется и какой эффект."}]},"mkt":{"label":"Маркетинг","q":[{"x":"Расскажите о кампании, которой вы гордитесь. Какой был результат в цифрах?","h":"Цель → канал → действия → метрика до и после.","s":120},{"x":"У вас 100 тыс. ₽ на запуск нового продукта. Как распределите?","h":"Тест гипотез на малых суммах, затем масштабирование лучшего канала.","s":120},{"x":"Какие каналы продвижения вы знаете и когда они подходят?","h":"Контекст, соцсети, email, SEO, партнёрства — по цели.","s":90},{"x":"Как вы определяете целевую аудиторию?","h":"Сегменты, интервью, данные, портрет клиента.","s":90},{"x":"Как составить контент-план?","h":"Цели, темы, форматы, частота, метрики.","s":90},{"x":"Как оценивать эффективность рекламы?","h":"CTR, CPC, CPA, ROMI, окупаемость.","s":90},{"x":"Что такое воронка продаж?","h":"Охват → интерес → заявка → покупка → повтор.","s":90},{"x":"Как вы проводите A/B-тест?","h":"Гипотеза, одна переменная, выборка, значимость.","s":90},{"x":"Как отстроиться от конкурентов?","h":"УТП, позиционирование, анализ конкурентов.","s":90},{"x":"Как вы работаете с отзывами и негативом?","h":"Быстро, вежливо, решение, вывод в процессы.","s":90}],"c":[{"x":"Стоимость привлечения клиента выросла вдвое, а продажи не выросли. Что делаете?","h":"Разбейте стоимость по каналам и проверьте воронку.","r":"1) Разбить CAC по каналам. 2) Остановить каналы с худшей окупаемостью. 3) Проверить креативы, посадочную и конверсию. 4) Перераспределить бюджет в лучшие каналы. 5) Запустить тесты и следить за CAC и LTV."}],"g":["целевая аудитория","позиционирование","УТП","воронка продаж","SEO","контекстная реклама","таргетированная реклама","email-маркетинг","SMM","контент-план","бренд","CAC","LTV","ROMI","CTR","CPC","конверсия","лид","CRM","сегментация","маркетинговый бюджет","конкурентный анализ","performance-маркетинг","influence-маркетинг","PR","нейминг","customer experience","лояльность клиентов","реферальная программа","ретаргетинг","аналитика трафика","Яндекс Метрика","маркетинговая стратегия","A/B-тест креативов"],"t":[{"q":"Что показывает CAC?","o":["Стоимость привлечения клиента","Средний чек","Долю рынка","Охват в соцсетях"],"a":0,"e":"CAC — сколько вы тратите, чтобы получить одного клиента."},{"q":"LTV/CAC = 3 обычно означает…","o":["Канал убыточен","Клиент приносит втрое больше, чем стоит привлечение","Реклама не работает","Нет данных"],"a":1,"e":"Соотношение около 3 считают здоровым ориентиром."},{"q":"Что такое конверсия?","o":["Доля совершивших целевое действие","Число показов","Стоимость клика","Размер аудитории"],"a":0,"e":"Например, доля посетителей, оставивших заявку."}]},"dev":{"label":"Разработка","q":[{"x":"Расскажите о самом сложном баге, который вы находили. Как искали причину?","h":"Гипотезы, инструменты, как убедились, что починили.","s":120},{"x":"Что для вас важно при ревью чужого кода?","h":"Читаемость, тесты, риски, тон обратной связи.","s":90},{"x":"Чем отличаются Git merge и rebase?","h":"История, линейность, когда что использовать.","s":90},{"x":"Что такое REST API?","h":"Ресурсы, HTTP-методы, статус-коды, отсутствие состояния.","s":90},{"x":"Как вы отлаживаете код?","h":"Воспроизвести, логи, брейкпоинты, гипотезы.","s":90},{"x":"Чем SQL отличается от NoSQL?","h":"Схема, транзакции, масштабирование, примеры.","s":90},{"x":"Что такое асинхронность и зачем она нужна?","h":"Не блокировать поток; промисы, async/await.","s":90},{"x":"Как обеспечить безопасность веб-приложения?","h":"Валидация, XSS, CSRF, SQL-инъекции, секреты.","s":90},{"x":"Как вы оцениваете сроки задачи?","h":"Декомпозиция, риски, буфер, обсуждение с командой.","s":90},{"x":"Как вы изучаете новую технологию?","h":"План, мини-проект, документация, обратная связь.","s":90}],"c":[{"x":"Страница стала грузиться 8 секунд вместо 2. С чего начнёте?","h":"Сначала измерьте, потом оптимизируйте узкое место.","r":"1) Измерить: Lighthouse, Network, профайлер. 2) Найти узкое место: сервер, БД, размер бандла, картинки. 3) Исправить главное: кэш, индексы, ленивая загрузка, сжатие. 4) Замерить снова. 5) Добавить мониторинг."}],"g":["Git","ветвление","code review","REST API","HTTP","JSON","SQL","индекс базы данных","транзакция","ACID","NoSQL","кэширование","асинхронность","Promise","event loop","замыкание","ООП","SOLID","паттерн проектирования","микросервисы","монолит","Docker","CI/CD","unit-тест","интеграционное тестирование","TDD","рефакторинг","технический долг","аутентификация и авторизация","XSS","CSRF","SQL-инъекция","CORS","оптимизация производительности","масштабирование","очередь сообщений","WebSocket","TypeScript","React","нотация Big O"],"t":[{"q":"Зачем нужны unit-тесты?","o":["Ускорить сайт","Быстро находить регрессии при изменениях","Заменить документацию","Уменьшить код"],"a":1,"e":"Тесты ловят поломки сразу после изменения."},{"q":"Что делает индекс в базе данных?","o":["Шифрует данные","Ускоряет поиск по полю","Удаляет дубли","Делает резервную копию"],"a":1,"e":"Ценой места и скорости записи ускоряет выборку."},{"q":"Что такое технический долг?","o":["Кредит на оборудование","Упрощённые решения, усложняющие будущие изменения","Ошибки в документации","Зарплата разработчиков"],"a":1,"e":"Его нужно планомерно «выплачивать» рефакторингом."}]},"hr":{"label":"HR и поведенческие","q":[{"x":"Назовите свою слабую сторону и скажите, что вы с ней делаете.","h":"Настоящая слабость и конкретные шаги улучшения, без «я перфекционист».","s":90},{"x":"Почему вы хотите работать у нас?","h":"Факт о компании и ваш навык, полезный ей.","s":90},{"x":"Где вы видите себя через 3–5 лет?","h":"Рост навыков, роль, вклад — реалистично.","s":90},{"x":"Расскажите о своей главной победе.","h":"STAR: задача, действия, измеримый результат.","s":90},{"x":"Как вы работаете в стрессовых ситуациях?","h":"Приоритеты, спокойствие, пример.","s":90},{"x":"Как вы получаете обратную связь?","h":"Просите, слушаете, применяете, пример.","s":90},{"x":"Почему мы должны выбрать именно вас?","h":"Соедините требования роли и ваши достижения.","s":90},{"x":"Как вы совмещаете учёбу и работу?","h":"Планирование, дисциплина, приоритеты.","s":90},{"x":"Какие у вас ожидания по зарплате и развитию?","h":"Диапазон по рынку, готовность к обучению.","s":90}],"c":[{"x":"Двое коллег не могут договориться, и это срывает задачу. Что сделаете?","h":"Факты, общая цель, договорённости.","r":"1) Выслушать каждого отдельно. 2) Выделить факты и общую цель. 3) Провести короткую встречу и обсудить варианты. 4) Зафиксировать решение и ответственных. 5) Через неделю проверить результат."}],"g":["сильные стороны","слабые стороны","карьерные цели","мотивация","стрессоустойчивость","тайм-менеджмент","работа в команде","конфликт в коллективе","обратная связь","ошибка и выводы","лидерство","ответственность","инициативность","обучаемость","дедлайн","многозадачность","работа с критикой","адаптация к новой команде","зарплатные ожидания","баланс учёбы и работы","профессиональные ценности","самоорганизация","общение с руководителем","принятие решений","достижения","неудачи","переговоры","эмпатия","наставничество","удалённая работа","выгорание","планирование карьеры","гибкость","эмоциональный интеллект"],"t":[{"q":"Что означает STAR?","o":["Situation, Task, Action, Result","Speed, Time, Accuracy, Reach","Skill, Team, Aim, Role","Start, Test, Adjust, Repeat"],"a":0,"e":"Метод структурирует рассказ об опыте."},{"q":"Лучший ответ про ошибку на работе:","o":["Я не ошибаюсь","Описать ошибку, свои действия и вывод","Обвинить обстоятельства","Промолчать"],"a":1,"e":"Важны ответственность и то, чему вы научились."},{"q":"Что важно в конце собеседования?","o":["Ничего не спрашивать","Задать 1–2 содержательных вопроса о роли и команде","Спросить только про отпуск","Сразу просить оффер"],"a":1,"e":"Вопросы показывают интерес и понимание роли."}]},"law":{"label":"Юриспруденция","q":[],"c":[{"x":"Контрагент не выполнил договор и отказывается платить неустойку. Ваши действия?","h":"Проверьте договор, соберите доказательства, пройдите претензионный порядок.","r":"1) Изучить условия договора, сроки и размер неустойки. 2) Собрать доказательства нарушения: акты, переписку, платёжки. 3) Направить письменную претензию и дождаться срока ответа. 4) Предложить мировое соглашение. 5) При отказе подать иск, заранее оценив риски и расходы."}],"g":["договор","существенные условия договора","неустойка","исковая давность","расторжение договора","форс-мажор","недействительная сделка","доверенность","представительство","ответственность сторон","претензионный порядок","арбитражный суд","судебное заседание","доказательства","конфликт интересов","коммерческая тайна","персональные данные","трудовой договор","увольнение","испытательный срок","материальная ответственность","интеллектуальная собственность","лицензионный договор","корпоративное право","ООО и АО","ИП","банкротство","комплаенс","due diligence","поручительство","залог","оферта и акцепт","электронная подпись","госзакупки","банковская гарантия"],"t":[]},"logi":{"label":"Логистика","q":[],"c":[{"x":"Доставка в регион стала занимать на 3 дня дольше, клиенты недовольны. Что делаете?","h":"Найдите, на каком этапе теряется время.","r":"1) Разложить маршрут на этапы и найти, где вырос срок. 2) Сравнить перевозчиков и маршруты. 3) Проверить склад: комплектацию и отгрузку. 4) Пересогласовать SLA или сменить перевозчика. 5) Ввести мониторинг и уведомления клиентам."}],"g":["цепь поставок","складской учёт","WMS","TMS","кросс-докинг","last mile","мультимодальные перевозки","таможенный брокер","транзитное время","маршрутизация","ABC-XYZ-анализ запасов","уровень сервиса","оборачиваемость запасов","страховой запас","EOQ","fulfillment","3PL","FTL и LTL","упаковка и маркировка","штрихкодирование","инвентаризация","холодовая цепь","фрахт","контейнерные перевозки","железнодорожные перевозки","стоимость доставки","KPI склада","слотинг","пикинг","обратная логистика","ERP","прогнозирование спроса","эффект хлыста","Lean-логистика","Инкотермс"],"t":[]},"analyt":{"label":"Аналитика данных","q":[],"c":[{"x":"Конверсия сайта упала на 15% за неделю. Как найдёте причину?","h":"Сначала проверьте данные, потом сегменты и воронку.","r":"1) Убедиться, что сбор данных не сломан. 2) Разбить по источникам, устройствам и страницам. 3) Найти шаг воронки с провалом. 4) Сопоставить с релизами, рекламой и сезонностью. 5) Проверить гипотезу экспериментом и зафиксировать вывод."}],"g":["SQL JOIN","оконные функции","агрегация","нормализация данных","ETL","хранилище данных","дашборд","BI-система","Power BI","сводные таблицы Excel","ВПР","Python pandas","статистическая значимость","p-value","A/B-тест","корреляция и причинность","регрессия","среднее и медиана","выбросы","стандартное отклонение","когортный анализ","воронка конверсии","retention-анализ","сегментация клиентов","RFM","прогнозирование","временной ряд","визуализация данных","качество данных","пропуски в данных","метрики продукта","north star metric","дисперсия","выборка","доверительный интервал"],"t":[]},"sales":{"label":"Продажи","q":[],"c":[{"x":"Клиент говорит «дорого» и собирается уйти к конкуренту. Что делаете?","h":"Выясните причину возражения и покажите ценность.","r":"1) Уточнить, с чем сравнивают и что значит «дорого». 2) Показать ценность: окупаемость, сервис, риски дешёвой альтернативы. 3) Предложить варианты: другой пакет, рассрочку, объём. 4) Зафиксировать договорённости и следующий шаг. 5) При отказе сохранить отношения."}],"g":["холодный звонок","скрипт продаж","воронка продаж","квалификация лида","BANT","SPIN-продажи","работа с возражениями","презентация продукта","коммерческое предложение","допродажа","кросс-продажа","upsell","ключевой клиент","KPI продавца","план продаж","CRM-система","переговоры о цене","закрытие сделки","дебиторка клиента","длинный цикл сделки","B2B-продажи","B2C-продажи","каналы сбыта","дистрибуция","скидки и промо","удержание клиентов","NPS","отказ клиента","тендерные продажи","партнёрские продажи","прогноз продаж","pipeline","конверсия сделок","средний чек","upsell и downsell"],"t":[]},"acc":{"label":"Бухгалтерия и налоги","q":[],"c":[{"x":"Налоговая запросила пояснения по вычету НДС. Как будете действовать?","h":"Спокойно, в срок, с документами.","r":"1) Проверить срок ответа в требовании. 2) Собрать счета-фактуры, договоры, акты. 3) Сверить данные учёта и декларации. 4) Подготовить пояснения и подать через ЭДО. 5) При обнаружении ошибки подать уточнённую декларацию."}],"g":["первичные документы","бухгалтерский баланс","отчёт о финансовых результатах","НДС","налог на прибыль","УСН","страховые взносы","амортизация основных средств","учёт запасов","акт сверки","счёт-фактура","кассовые операции","расчётный счёт","зарплата и НДФЛ","налоговая отчётность","налоговая проверка","камеральная проверка","налоговый вычет","отложенные налоги","МСФО и РСБУ","инвентаризация","переоценка","курсовые разницы","онлайн-касса","ЭДО","закрытие месяца","учётная политика","единый налоговый счёт","налоговое планирование","самозанятость","патент","бухгалтерские проводки","оборотно-сальдовая ведомость","дебиторская задолженность","себестоимость в бухучёте"],"t":[]},"design":{"label":"Дизайн и UX","q":[],"c":[{"x":"Пользователи бросают оформление заказа на третьем шаге. Что делаете?","h":"Данные, исследование, гипотеза, тест.","r":"1) Посмотреть аналитику и записи сессий. 2) Провести быстрое юзабилити-тестирование. 3) Сформулировать гипотезы: длинная форма, ошибки, непонятные кнопки. 4) Упростить шаг и запустить A/B-тест. 5) Оценить конверсию и закрепить решение в дизайн-системе."}],"g":["UX и UI","пользовательское исследование","персона","customer journey","информационная архитектура","wireframe","прототип","юзабилити-тестирование","дизайн-система","сетка и композиция","типографика","цветовая палитра","контраст и доступность","адаптивный дизайн","mobile first","паттерны навигации","микроанимации","иконки","Figma","компоненты","handoff разработчикам","A/B-тест интерфейса","heatmap","эвристическая оценка","закон Фитса","закон Хика","карточная сортировка","онбординг","пустые состояния","обработка ошибок","брендбук","логотип","моушн-дизайн","дизайн-мышление","визуальная иерархия"],"t":[]},"mgmt":{"label":"Менеджмент","q":[],"c":[{"x":"Сильный сотрудник собирается уволиться. Ваши действия?","h":"Причины, предложение, план развития.","r":"1) Откровенно поговорить и выяснить причину. 2) Оценить, что можно изменить: задачи, рост, оплату, нагрузку. 3) Предложить план развития. 4) Если сотрудник уходит — организовать передачу дел. 5) Сделать выводы для команды."}],"g":["стратегия компании","SWOT","PESTEL","цели и OKR","KPI","делегирование","мотивация сотрудников","оценка персонала","наём","адаптация новичка","увольнение сотрудника","лидерство","конфликт-менеджмент","организационная структура","бизнес-процесс","регламент","оптимизация процессов","Lean","Six Sigma","управление изменениями","принятие решений","матрица Эйзенхауэра","планирование","контроллинг","управление рисками","командная работа","планёрки","обратная связь","эффективная коммуникация","корпоративная культура","управление временем","бюджет подразделения","управление проектами","ответственность","управленческая отчётность"],"t":[]},"eng":{"label":"Инженерный бизнес","q":[],"c":[{"x":"На линии растёт брак, и срываются поставки. С чего начнёте?","h":"Данные, причины, быстрые меры, контроль.","r":"1) Собрать статистику брака по типам, сменам и оборудованию. 2) Найти повторяющуюся причину: «5 почему», диаграмма Исикавы. 3) Принять быстрые меры: входной контроль, наладка. 4) Исправить причину и обновить регламент. 5) Следить за долей брака и проводить аудит."}],"g":["производственный цикл","себестоимость продукции","бережливое производство","5S","Kaizen","канбан","OEE","TPM","контроль качества","ISO 9001","метрология","допуски и посадки","техническая документация","ГОСТ","цепочка создания ценности","планирование производства","MRP","мощность производства","узкое место","теория ограничений","время цикла","незавершённое производство","снижение потерь","техобслуживание и ремонт","охрана труда","сертификация","НИОКР","жизненный цикл изделия","прототипирование","себестоимость партии","автоматизация","цифровой двойник","ERP на производстве","закупка комплектующих","экономика производства"],"t":[]}};
 
 const $=id=>document.getElementById(id);
 const fmt=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
@@ -764,7 +727,7 @@ async function check(){
   }
 }
 
-const INTRO='Представьтесь и расскажите о себе: образование, опыт, ключевые навыки и мотивация.';
+const INTRO='Представьтесь и расскажите о себе: образование, опыт, сильные стороны и почему вы выбрали это направление.';
 const TPL=[
   [t=>`Объясните своими словами, что такое «${t}», и приведите пример из практики.`,'Определение → пример → вывод.'],
   [t=>`Где и зачем вы применяете «${t}»? Какие ошибки встречаются чаще всего?`,'Ситуация, польза и типичные ошибки.']
@@ -831,7 +794,6 @@ function answer(){
   setPh('● ИДЁТ ЗАПИСЬ И АУДИТ ГОЛОСА','#ff5b5b');
   $('nx2').textContent=qi+1<qs.length?'Следующий вопрос':'Завершить интервью';
   
-  // Старт распознавания речи
   transcriber.start();
 
   chunks=[];
@@ -860,7 +822,6 @@ async function next(){
     rec.stop();
   });
 
-  // Аудит распознанной речи
   const audit = auditTranscript(rawTranscript, durationSec);
 
   items.push({
@@ -884,7 +845,6 @@ function review(list){
   items=list;
   show('s3');
 
-  // Формируем общий аудит за всё интервью
   let totalWords = 0;
   let totalParasites = 0;
   let totalSec = 0;
@@ -948,7 +908,6 @@ function pick(i){
   $('dl').href=urlNow;
   $('dl').download=`otvet-${i+1}.${it.blob.type.includes('mp4')?'mp4':'webm'}`;
 
-  // Рендерим аудит для конкретного ответа
   const a = it.audit || {};
   const tagsHtml = a.foundList && a.foundList.length > 0 
     ? a.foundList.map(f => `<span class="parasite-tag">${f.word} (${f.count})</span>`).join('')
@@ -979,7 +938,6 @@ function pick(i){
   if(it.r)$('rst').textContent=it.r;
 }
 
-// Привязка действий
 $('dirs').onclick=e=>{const b=e.target.closest('[data-d]');if(b)openSes(b.dataset.d)};
 $('myrec').onclick=e=>{e.preventDefault();openSes(null,true)};$('chkb').onclick=check;
 $('ready').onclick=begin;
